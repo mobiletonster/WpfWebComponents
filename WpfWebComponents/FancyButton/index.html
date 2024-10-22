@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        @font-face {
+            font-family: 'RobotoCondensed';
+            src: url('Roboto_Condensed/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
+        }
+
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+            overflow-y: hidden;
+            /*            background-image: linear-gradient(180deg, rgba(255,255,255, 0.01), rgba(255,255,255, 1) 85%), radial-gradient(ellipse at top left, rgba(13,110,253, 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(255,228,132, 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(255,228,132, 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(214,51,132, 0.5), transparent 50%);
+            font-family: 'Segoe UI',Arial;*/
+        }
+
+        /* CSS */
+        .button-29 {
+            align-items: center;
+            appearance: none;
+            background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+            border: 0;
+            border-radius: 6px;
+            box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            font-family: 'RobotoCondensed';
+            height: 90vh;
+            width:100%;
+            justify-content: center;
+            line-height: 1;
+            list-style: none;
+            overflow: hidden;
+            padding-left: 16px;
+            padding-right: 16px;
+            position: relative;
+            text-align: left;
+            text-decoration: none;
+            transition: box-shadow .15s,transform .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            white-space: nowrap;
+            will-change: box-shadow,transform;
+            font-size: 18px;
+        }
+
+        .button-29:focus {
+            box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+        }
+
+        .button-29:hover {
+            box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        .button-29:active {
+            box-shadow: #3c4fe0 0 3px 7px inset;
+            transform: translateY(2px);
+        }
+
+        .glow-on-hover {
+            width: 100%;
+            height: 90vh;
+            border: none;
+            outline: none;
+            color: #000;
+            background: #5656f5;
+            font-family: 'RobotoCondensed';
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 10px;
+        }
+
+            .glow-on-hover:before {
+                content: '';
+                background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                background-size: 400%;
+                z-index: -1;
+                filter: blur(5px);
+                width: calc(100% + 4px);
+                height: calc(100% + 4px);
+                animation: glowing 20s linear infinite;
+                opacity: 0;
+                transition: opacity .3s ease-in-out;
+                border-radius: 10px;
+            }
+
+            .glow-on-hover:active {
+                color: #000
+            }
+
+                .glow-on-hover:active:after {
+                    background: transparent;
+                }
+
+            .glow-on-hover:hover:before {
+                opacity: 1;
+            }
+
+            .glow-on-hover:after {
+                z-index: -1;
+                content: '';
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: #5656f5;
+                left: 0;
+                top: 0;
+                border-radius: 10px;
+            }
+
+        @keyframes glowing {
+            0% {
+                background-position: 0 0;
+            }
+
+            50% {
+                background-position: 400% 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="button" class="glow-on-hover" role="button" onclick="clicked(this)">Button</button>
+    <script type="text/javascript">
+        function setButtonText(text) {
+            document.getElementById("button").innerHTML = text;
+        }
+
+        function clicked(elm) {
+            if (window.chrome.webview) {
+                window.chrome.webview.postMessage('clicked');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radial Gauge</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .radial-gauge {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#00aaff 0% 70%, #ddd 70% 100%);
+        }
+
+        .gauge-meter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* Hide the meter but keep it for accessibility */
+        }
+
+        .gauge-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gauge-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="radial-gauge">
+        <meter id="gaugeMeter" min="0" max="100" value="70" class="gauge-meter"></meter>
+        <div class="gauge-overlay">
+            <div  id="gaugeText"class="gauge-text">70%</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const gaugeMeter = document.getElementById('gaugeMeter');
+        const gaugeText = document.getElementById('gaugeText');
+        const radialGauge = document.querySelector('.radial-gauge');
+
+        function updateGauge(val) {
+            gaugeMeter.value = val;
+            gaugeText.textContent = `${val}%`;
+            radialGauge.style.background = `conic-gradient(#00aaff 0% ${val}%, #ddd ${val}% 100%)`;
+        }
+
+    </script>
+</body>
+</html>

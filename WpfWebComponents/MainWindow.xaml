@@ -1,0 +1,25 @@
+﻿<Window x:Class="WpfWebComponents.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfWebComponents"
+        xmlns:wv="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Background="LightGreen">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="White">
+            <local:SortableListViewControl Grid.Column="0"></local:SortableListViewControl>
+        </Grid>
+        <StackPanel Grid.Column="1">
+            <local:SimpleButton Width="200" Height="100" ButtonText="My Button" Clicked="SimpleButton_Clicked"></local:SimpleButton>
+            <local:ShapeRenderer x:Name="Shaper" Width="410" Height="310"></local:ShapeRenderer>
+            <local:FancyButton Width="150" Height="80" ButtonText="Fancy Button"></local:FancyButton>
+        </StackPanel>
+
+    </Grid>
+</Window>

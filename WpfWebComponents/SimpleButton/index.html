@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+            overflow-y: hidden;
+            margin:0;
+        }
+
+        #button {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <button id="button" class="glow-on-hover" role="button" onclick="clicked(this)">Button</button>
+    <script type="text/javascript">
+        function setButtonText(text) {
+            document.getElementById("button").innerHTML = text;
+        }
+
+        function clicked(elm) {
+            if (window.chrome.webview) {
+                window.chrome.webview.postMessage('clicked');
+            }
+        }
+    </script>
+</body>
+</html>

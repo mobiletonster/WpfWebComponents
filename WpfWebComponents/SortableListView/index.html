@@ -1,0 +1,379 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <style>
+        /* Optional: Add some styling to the list items */
+        @font-face {
+            font-family: 'RobotoCondensed';
+            src: url('Roboto_Condensed/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
+        }
+
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+/*            min-height: 100vh;
+            overflow-y: hidden;*/
+/*            background-image: linear-gradient(180deg, rgba(255,255,255, 0.01), rgba(255,255,255, 1) 85%), radial-gradient(ellipse at top left, rgba(13,110,253, 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(255,228,132, 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(255,228,132, 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(214,51,132, 0.5), transparent 50%);
+            font-family: 'Segoe UI',Arial;*/
+        }
+
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-block-start: 0em;
+            margin-block-end: 0em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+            padding-inline-start: 0px;
+        }
+
+        li {
+            cursor: grab;
+            /* padding: 20px 10px 20px 30px; */
+            height: 50px;
+            padding: 0px;
+            border: 0px solid #ccc;
+            margin-bottom: 0px;
+            transition: background-color 0.5s ease;
+            /* Smooth transition */
+        }
+
+
+            /* li::before {
+            content: '';
+            width: 30px;
+            display: inline-block;
+        } */
+
+            li:hover {
+                background-color: lightblue;
+                transition: background-color 0.2s ease;
+            }
+
+        .list-container:hover .drag-handle {
+            opacity: 1;
+            font-family: "Segoe MDL2 Assets";
+            align-self: center;
+            justify-self: center;
+            transition: opacity 0.2s ease;
+        }
+
+
+
+        .selected {
+            background-color: #f0f0f0;
+        }
+
+            .selected .drag-handle {
+                opacity: 1;
+            }
+
+        details {
+            font-family: RobotoCondensed;
+        }
+
+        summary {
+            font-family: RobotoCondensed;
+            font-weight: 500;
+        }
+
+        body {
+            font-family: RobotoCondensed;
+        }
+
+        summary::marker {
+            display: none;
+            color: rgb(58, 58, 58);
+            list-style-image: none;
+            /* url(right-arrow.svg); */
+            /* Replace with your custom image */
+        }
+
+        summary > span {
+            color: rgb(172, 172, 172);
+            margin-left: 5px;
+        }
+
+        .prevent-select {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        details > summary {
+            margin-left: 20px;
+            padding: 10px 0px;
+        }
+
+            details > summary:before {
+                content: ' ';
+                border: solid #939faa;
+                border-width: 0 2px 2px 0;
+                display: inline-block;
+                padding: 0 5px 5px 0;
+                transform: rotate(-45deg);
+                margin: 0px 16px 5px 0px;
+            }
+
+        details[open] > summary:before {
+            content: ' ';
+            border: solid #939faa;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 0 5px 5px 0;
+            transform: rotate(45deg);
+        }
+
+        details[open] > summary:first-of-type {
+            list-style-type: none;
+            font-family: RobotoCondensed;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        details > summary:first-of-type {
+            display: list-item;
+            counter-increment: list-item 0;
+            list-style: none;
+            font-family: RobotoCondensed;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .productivity-status {
+            border-left: 4px solid green;
+        }
+
+        .action-play {
+            font-family: "Segoe MDL2 Assets";
+        }
+
+        .drag-handle {
+            font-family: "Segoe MDL2 Assets";
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .list-container {
+            display: grid;
+            grid-template-columns: 12px 30px 2fr 60px;
+            grid-template-rows: 50px;
+            row-gap: 0px;
+            width: 100%;
+        }
+
+            .list-container.dragover {
+                border-bottom: 2px dashed blue;
+            }
+
+        .item-start {
+            align-self: center;
+            justify-self: start;
+        }
+
+        .item-centered {
+            align-self: center;
+            justify-self: center;
+        }
+    </style>
+    <style>
+        #context-menu {
+            /* display: none; */
+            position: fixed;
+            background-color: #1b1a1a;
+            border: 1px solid #ccc;
+            border-radius:5px;
+            z-index: 10000;
+            transform:scale(0);
+            transform-origin:top left;
+        }
+        #context-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #context-menu ul li {
+            padding: 8px 12px;
+            height:auto;
+            font-size: 15px;
+            color: #eee;
+            cursor: pointer;
+            user-select:none;
+        }
+        #context-menu ul li:hover {
+            background-color: #343434;
+        }
+        #context-menu.visible {
+        transform: scale(1);
+        transition: transform 100ms ease-in-out;	
+        }
+    </style>
+</head>
+
+<body>
+    <details open>
+        <summary class="prevent-select">UNASSIGNED <span>88</span></summary>
+        <ul id="sortable-list" class="prevent-select" ondrop="drop(event)" ondragover="dragOver(event)" ondragleave="dragLeave(event)">
+            <li draggable="true" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">CAT 793F_101</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT023</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT024</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT025</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT026</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT027</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT028</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT029</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT030</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT031</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT032</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+        </ul>
+    </details>
+    <details open>
+        <summary class="prevent-select">User 1 <span>6</span></summary>
+        <ul id="user1" ondrop="drop(event)" ondragover="dragOver(event)" ondragleave="dragLeave(event)">
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">Hitachi_35</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+            <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+                <div class="productivity-status"></div><div class="item-centered"><span class="drag-handle">&#xF741;</span></div><div class="item-start">DT035</div><div class="item-centered action-play">&#xF5B0;</div>
+            </li>
+        </ul>
+    </details>
+</body>
+
+<template>
+    <li draggable="true" ondragstart="dragStart(event)" onclick="toggleSelection(event)" class="list-container">
+        <div class="productivity-status"></div><div></div><div class="item-start">DT024</div><div class="item-centered action-play">&#xF5B0;</div>
+    </li>
+</template>
+
+    <div id="context-menu">
+        <ul>
+            <li onclick="alert('Option 1')">Option 1</li>
+            <li onclick="alert('Option 2')">Option 2</li>
+            <li onclick="alert('Option 3')">Option 3</li>
+        </ul>
+    </div>
+    <script src="script.js"></script>
+
+<script type="text/javascript">
+    // Keep track of selected items
+    const selectedItems = new Set();
+
+    let currentDraggedItem;
+
+    function init(){
+        var elements = document.querySelectorAll("[draggable='true']");
+        console.log(elements.length);
+        elements.forEach(el=> {
+            el.addEventListener("dragstart",dragStart,false)
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        // Your code to run since DOM is loaded and ready
+        init();
+    });
+
+    // Allow the drop event
+    function dragOver(event) {
+        event.target.classList.add("dragover");
+        event.preventDefault();
+    }
+
+    function dragLeave(event){
+        event.target.classList.remove("dragover");
+        event.preventDefault();
+    }
+
+    // Set data to be dragged
+    function dragStart(event) {
+        currentDraggedItem = event.target;
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", event.target.id);
+    }
+
+    // Handle the drop event
+    function drop(event) {
+        event.preventDefault();
+        const target = event.target;
+        event.target.classList.remove("dragover");
+        // Reorder the list items
+        if (target.tagName === "LI" && currentDraggedItem !== target) {
+            if (isBefore(currentDraggedItem, target)) {
+                target.parentNode.insertBefore(currentDraggedItem, target);
+            } else {
+                target.parentNode.insertBefore(currentDraggedItem, target.nextSibling);
+            }
+
+            if (selectedItems.has(currentDraggedItem)) {
+                // Remove from selected items
+                selectedItems.delete(currentDraggedItem);
+                currentDraggedItem.classList.remove("selected");
+            }
+        }
+
+        // if (target.tagName === "LI" && currentDraggedItem !== target) {
+        //     const draggedItemId = event.dataTransfer.getData("text/plain");
+        //     const draggedItem = document.getElementById(draggedItemId);
+
+
+
+        //     if (isBefore(draggedItem, target)) {
+        //         target.parentNode.insertBefore(draggedItem, target);
+        //     } else {
+        //         target.parentNode.insertBefore(draggedItem, target.nextSibling);
+        //     }
+        // }
+    }
+
+    // Toggle selection on click
+    function toggleSelection(event) {
+        const listItem = event.target;
+        if (selectedItems.has(listItem)) {
+            selectedItems.delete(listItem);
+            listItem.classList.remove("selected");
+        } else {
+            selectedItems.add(listItem);
+            listItem.classList.add("selected");
+        }
+        window.chrome.webview.postMessage(listItem);
+    }
+
+    // Check if el1 is before el2 in the same parent
+    function isBefore(el1, el2) {
+        if (el2.parentNode === el1.parentNode) {
+            for (let cur = el1.previousSibling; cur && cur.nodeType !== 9; cur = cur.previousSibling) {
+                if (cur === el2) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+</script>
+</html>
