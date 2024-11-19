@@ -39,5 +39,11 @@ namespace WpfWebComponents
             Shaper.DrawPoints(points);
 
         }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            int meterValue = Convert.ToInt32(e.NewValue);
+            DumpMeter.MeterValue = meterValue;
+        }
     }
 }

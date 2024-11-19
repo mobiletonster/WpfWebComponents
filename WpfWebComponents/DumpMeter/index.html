@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dump Meter</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        @font-face {
+            font-family: 'RobotoCondensed';
+            src: url('Roboto_Condensed/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
+        }
+
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+            overflow-y: hidden;
+            margin: 0;
+        }
+
+        .main-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .meter-container {
+            width: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .meter-label {
+            width: 100%;
+            font-family: 'Roboto Condensed';
+            font-size: small;
+            font-weight: 500;
+            text-align: center;
+            color: darkgray;
+        }
+
+        .dump-caption {
+            width: 50px;
+            font-family: 'Roboto Condensed';
+            text-align: center;
+            color: darkgray;
+        }
+
+        .dump-percent {
+            width: 50px;
+            font-family: 'Roboto Condensed';
+            text-align: center;
+            color: #365569;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="dump-caption">Dump</div>
+        <div class="dump-percent">
+            <span id="dump-value">0</span>%
+        </div>
+        <div class="meter-container">
+            <div class="meter-label">100%</div>
+            <canvas id="meter" width="20" height="200"></canvas>
+            <div class="meter-label">0%</div>
+        </div>
+        <input id="myRange" type="range" title="slider" min="0" max="100" value="0" class="slider" style="display:none" oninput="setMeterValue(this.value)">
+    </div>
+
+    <script type="text/javascript">
+        // Get the canvas element
+        const canvas = document.getElementById('meter');
+        const ctx = canvas.getContext('2d');
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        }
+        function drawBack() {
+            ctx.fillStyle = "#e9e6e9";
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        }
+
+        function drawTicks() {
+            // Number of lines to draw
+            const numberOfLines = 5;
+            // Calculate the space between each line
+            const spaceBetweenLines = (canvasHeight - 2) / (numberOfLines - 1);
+            // Set the line width
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#5b595b'; // You can change the color as needed
+            // Draw the lines
+            for (let i = 0; i <= numberOfLines - 1; i++) {
+                const y = spaceBetweenLines * i + 1;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvasWidth, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawMeterValue(meterVal) {
+            ctx.fillStyle = "#acaaac";
+            let top = ((100 - meterVal) / 100) * canvasHeight;
+            ctx.fillRect(0, top, canvasWidth, canvasHeight);
+        }
+
+        function draw() {
+            clearCanvas();
+            drawBack();
+            drawTicks();
+        }
+
+        function setDumpValue(meterVal) {
+            document.getElementById("dump-value").innerText = meterVal;
+        }
+
+        // THIS IS THE PUBLIC API
+        function setMeterValue(meterVal) {
+            if (meterVal > 100) meterVal = 100;
+            if (meterVal < 0) meterVal = 0;
+            clearCanvas();
+            drawBack();
+            drawMeterValue(meterVal);
+            drawTicks();
+            setDumpValue(meterVal);
+        }
+
+        draw();
+
+    </script>
+    <script type="text/javascript">
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey && event.altKey && (event.key === 't' || event.key === 'T')) { toggleTestMode(); }
+        });
+
+        function toggleTestMode() {
+            let slider = document.getElementById('myRange')
+            if (slider.style.display == 'none')
+                slider.style.display = 'block';
+            else
+                slider.style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>

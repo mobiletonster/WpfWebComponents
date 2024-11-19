@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:WpfWebComponents"
         xmlns:wv="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Background="LightGreen">
+        Title="MainWindow" Height="650" Width="1000">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Background="White">
             <local:SortableListViewControl Grid.Column="0"></local:SortableListViewControl>
@@ -20,6 +21,10 @@
             <local:ShapeRenderer x:Name="Shaper" Width="410" Height="310"></local:ShapeRenderer>
             <local:FancyButton Width="150" Height="80" ButtonText="Fancy Button"></local:FancyButton>
         </StackPanel>
-
+        <StackPanel Grid.Column="2" >
+            <local:DumpGauge Width="250" Height="90" HorizontalAlignment="Left"></local:DumpGauge>
+            <local:DumpMeter x:Name="DumpMeter" Width="50" Height="300" HorizontalAlignment="Left" MeterValue="23"></local:DumpMeter>
+            <Slider Minimum="0" Maximum="100" Value="20" ValueChanged="Slider_ValueChanged"></Slider>
+        </StackPanel>
     </Grid>
 </Window>

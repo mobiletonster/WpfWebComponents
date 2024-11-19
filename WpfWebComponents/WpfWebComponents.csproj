@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DumpGauge\DumpFont\dumpfont.eot" />
+    <None Remove="DumpGauge\DumpFont\dumpfont.svg" />
+    <None Remove="DumpGauge\DumpFont\dumpfont.ttf" />
+    <None Remove="DumpGauge\DumpFont\dumpfont.woff" />
+    <None Remove="DumpGauge\index.html" />
+    <None Remove="DumpGauge\Roboto_Condensed\RobotoCondensed-Italic-VariableFont_wght.ttf" />
+    <None Remove="DumpGauge\Roboto_Condensed\RobotoCondensed-VariableFont_wght.ttf" />
+    <None Remove="DumpMeter\index.html" />
+    <None Remove="DumpMeter\Roboto_Condensed\RobotoCondensed-Italic-VariableFont_wght.ttf" />
+    <None Remove="DumpMeter\Roboto_Condensed\RobotoCondensed-VariableFont_wght.ttf" />
     <None Remove="FancyButton\index.html" />
     <None Remove="FancyButton\Roboto_Condensed\RobotoCondensed-Italic-VariableFont_wght.ttf" />
     <None Remove="FancyButton\Roboto_Condensed\RobotoCondensed-VariableFont_wght.ttf" />
@@ -22,6 +32,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="DumpGauge\DumpFont\dumpfont.eot">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\DumpFont\dumpfont.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\DumpFont\dumpfont.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\DumpFont\dumpfont.woff">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\Roboto_Condensed\RobotoCondensed-Italic-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpGauge\Roboto_Condensed\RobotoCondensed-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpMeter\index.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpMeter\Roboto_Condensed\RobotoCondensed-Italic-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DumpMeter\Roboto_Condensed\RobotoCondensed-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ShapeRenderer\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
